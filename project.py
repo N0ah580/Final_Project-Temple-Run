@@ -11,9 +11,12 @@ from pygame_grid import make_grid
 from ucc_sprite import Sprite
 
 ### SET UP GLOBAL CONSTANTS HERE
-WIDTH = 640
-HEIGHT = 360
-BACKGROUND_COLOR = "white"
+WIDTH = 800
+HEIGHT = 640
+BACKGROUND_COLOR = "black"
+FONT_COLOR = "#6aa84f"
+GAME_OVER_COLOR = "crimson"
+PAUSED_COLOR = "gold"
 
 # Create and open a pygame screen with the given size
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -27,6 +30,46 @@ clock = pygame.time.Clock()
 
 # Group to hold all of the active sprites
 all_sprites = pygame.sprite.LayeredUpdates()
+
+# Load the images
+walkway = pygame.image.load ("walkway.jpeg")
+walkway = pygame.transform.rotozoom(walkway, 0, 7)
+knight = pygame.image.load ("knight.png")
+knight = pygame.transform.rotozoom(knight, 0, 1)
+hole = pygame.image.load ("hole.png")
+hole = pygame.transform.rotozoom(hole, 0, 5.5)
+
+#Create sprites for background and character
+walkways = pygame.sprite.Group()
+
+bridge = Sprite (walkway)
+bridge.center = (WIDTH / 2, 300)
+bridge.add(all_sprites, walkways)
+bridge.direction = 270
+bridge.rotates = False
+bridge.speed = 0.6
+
+bridge_b = Sprite (walkway)
+bridge_b.center = (WIDTH / 2, -150)
+bridge_b.add(all_sprites, walkways)
+bridge_b.direction = 270
+bridge_b.rotates = False
+bridge_b.speed = 0.6
+
+#create statement to replace the bridge
+if bridge.top >= 0:
+    bridge.center == (WIDTH / 2, -150)
+if bridge_b.top == 0:
+    bridge.center = (WIDTH / 2, -150)
+    
+
+player = Sprite (knight)
+player.center = (WIDTH / 2, 300)
+player.add(all_sprites)
+
+obstacle_a = Sprite (hole)
+obstacle_a.center = (230, 200)
+obstacle_a.add(all_sprites)
 
 ### SET UP YOUR GAME HERE
 
@@ -69,3 +112,6 @@ while running:
 
     # Flip the changes to the screen to the computer display
     pygame.display.flip()
+    
+# Quit the pygame program
+pygame.quit()
