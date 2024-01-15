@@ -13,7 +13,7 @@ from ucc_sprite import Sprite
 ### SET UP GLOBAL CONSTANTS HERE
 WIDTH = 800
 HEIGHT = 640
-BACKGROUND_COLOR = "black"
+BACKGROUND_COLOR = "#111111"
 FONT_COLOR = "#6aa84f"
 GAME_OVER_COLOR = "crimson"
 PAUSED_COLOR = "gold"
@@ -32,8 +32,8 @@ clock = pygame.time.Clock()
 all_sprites = pygame.sprite.LayeredUpdates()
 
 # Load the images
-walkway = pygame.image.load ("walkway.jpeg")
-walkway = pygame.transform.rotozoom(walkway, 0, 7)
+walkway = pygame.image.load ("walkway2.png")
+walkway = pygame.transform.rotozoom(walkway, 0, 4)
 knight = pygame.image.load ("knight.png")
 knight = pygame.transform.rotozoom(knight, 0, 1)
 hole = pygame.image.load ("hole.png")
@@ -47,20 +47,15 @@ bridge.center = (WIDTH / 2, 300)
 bridge.add(all_sprites, walkways)
 bridge.direction = 270
 bridge.rotates = False
-bridge.speed = 0.6
+bridge.speed = 1
 
 bridge_b = Sprite (walkway)
 bridge_b.center = (WIDTH / 2, -150)
 bridge_b.add(all_sprites, walkways)
 bridge_b.direction = 270
 bridge_b.rotates = False
-bridge_b.speed = 0.6
+bridge_b.speed = 1
 
-#create statement to replace the bridge
-if bridge.top >= 0:
-    bridge.center == (WIDTH / 2, -150)
-if bridge_b.top == 0:
-    bridge.center = (WIDTH / 2, -150)
     
 
 player = Sprite (knight)
@@ -68,11 +63,15 @@ player.center = (WIDTH / 2, 300)
 player.add(all_sprites)
 
 obstacle_a = Sprite (hole)
-obstacle_a.center = (230, 200)
+obstacle_a.center = (230, -80)
 obstacle_a.add(all_sprites)
 
 ### SET UP YOUR GAME HERE
 
+#add in obstacles and add motion.
+obstacle_a.direction = 270
+obstacle_a.rotates = False
+obstacle_a.speed = 1
 
 
 ### DEFINE HELPER FUNCTIONS
@@ -91,8 +90,22 @@ while running:
             running = False
 
         ### MANAGE OTHER EVENTS SINCE THE LAST FRAME
-        
 
+    #create statement to replace the bridge
+    if bridge.top == 0:
+        bridge.center == (WIDTH / 2, -200)
+    if bridge_b.top == 0:
+        bridge.center = (WIDTH / 2, -200)
+        
+    # Check for a key press
+    keys_down = pygame.key.get_pressed()
+    if event.type == KEYDOWN:     
+        #if the arrow keys were pressed move the character left/right
+        if keys_down[K_RIGHT] and player.right < 550:
+            player.x += 2
+            
+        elif keys_down[K_LEFT] and player.left > 235:
+            player.x -= 2
 
     ### MANAGE GAME STATE FRAME-BY-FRAME
     
