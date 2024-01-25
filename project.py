@@ -72,14 +72,14 @@ bridge.center = (WIDTH / 2, 300)
 bridge.add(all_sprites, walkways)
 bridge.direction = 270
 bridge.rotates = False
-bridge.speed = 1
+bridge.speed = 1.8
 
 bridge_b = Sprite (walkway)
 bridge_b.center = (WIDTH / 2, -340)
 bridge_b.add(all_sprites, walkways)
 bridge_b.direction = 270
 bridge_b.rotates = False
-bridge_b.speed = 1
+bridge_b.speed = 1.8
 
 #Sprites for the buttons
 start_button = Sprite(start_button_image)
@@ -132,13 +132,13 @@ while running:
         #set to randomize obstacles
         elif event.type == OBSTACLE_EVENT:
             obstacle_a = Sprite (hole)
-            obstacle_a.midbottom = (randint(200, 450), randint(-30, 200))
+            obstacle_a.midbottom = (randint(220, 510), randint(-80, 50))
             obstacle_a.add(all_sprites, obstacles)
 
             obstacle_a.direction = 270
             obstacle_a.rotates = False
-            obstacle_a.speed = 1
-            pygame.time.set_timer(OBSTACLE_EVENT, randint (4500, 5000), 1)
+            obstacle_a.speed = 1.8
+            pygame.time.set_timer(OBSTACLE_EVENT, randint (2000, 2400), 1)
         
         # Check for a mouse click
         elif event.type == MOUSEBUTTONDOWN:
@@ -149,14 +149,14 @@ while running:
             #Start game
             if start_button.mask_contains_point(event.pos) and start_button.alive():
                
-                bridge_b.speed = 1
+                bridge_b.speed = 1.8
                 bridge_b.add(all_sprites, walkways)
                 
-                bridge.speed = 1
+                bridge.speed = 1.8
                 bridge.add(all_sprites, walkways)
                 
                 for obstacle in obstacles:
-                    obstacle.speed = 1
+                    obstacle.speed = 1.8
                 
                 player.center = (WIDTH / 2, 300)
                 player.add(all_sprites)
@@ -178,6 +178,7 @@ while running:
                     pygame.time.set_timer(COUNTDOWN_EVENT, 0)
                     start_button.add(all_sprites)
                     pause_button.kill()
+                    pygame.time.set_timer(OBSTACLE_EVENT, randint (0, 0), 1)
                 
             
 
@@ -194,6 +195,10 @@ while running:
             game_over.add(all_sprites)
             start_button.add(all_sprites)
             stop_button.add(all_sprites)
+            pygame.time.set_timer(OBSTACLE_EVENT, 0)
+            for obstacle in obstacles:
+                obstacle.kill()
+            break
             
         
         
